@@ -1,4 +1,4 @@
-module hashCitrine/golangHlsServer
+module github.com/HashCitrine/testHls
 
 go 1.20
 

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"hashCitrine/golangHlsServer/handle"
-	"hashCitrine/golangHlsServer/service"
+	"github.com/HashCitrine/testHls/handle"
+	"github.com/HashCitrine/testHls/service"
 	"log"
 	"net/http"
 )

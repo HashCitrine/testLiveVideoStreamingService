@@ -2,7 +2,7 @@ package handle
 
 import (
 	"errors"
-	"hashCitrine/golangHlsServer/service"
+	"github.com/HashCitrine/testHls/service"
 	"log"
 	"net/http"
 	"os"
