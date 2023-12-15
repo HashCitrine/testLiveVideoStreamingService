@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Hls.js demo - basic usage</title>
+  </head>
+
+  <body>
+<!--    <script src="hls.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <div style="text-align: center;">
+      <h1>Hls Demo</h1>
+      <video height="600" id="video" controls></video>
+    </div>
+
+    <script>
+      var video = document.getElementById('video');
+      if (Hls.isSupported()) {
+        var hls = new Hls({
+          debug: true,
+        });
+        // hls.loadSource('http://localhost:8080/playlist.m3u8');
+        hls.loadSource('http://localhost:8080/playlist.m3u8');
+
+        console.log("hls.data : ", hls.data);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+          video.muted = true;
+          video.play();
+        });
+      }
+      // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+      // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element through the `src` property.
+      // This is using the built-in support of the plain video element, without using hls.js.
+      else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = 'http://localhost:8080/playlist.m3u8';
+        video.addEventListener('canplay', function () {
+          video.play();
+        });
+      }
+    </script>
+  <!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "8168aed9511c411381152db20cb44430"}'></script><!-- Cloudflare Pages Analytics --></body>
+</html>
