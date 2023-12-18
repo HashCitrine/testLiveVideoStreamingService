@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	const port = 8080
+	const port = 8082
 
 	http.Handle("/", handle.StreamVideo(http.FileServer(http.Dir(service.GetOutputDir()))))
 	http.HandleFunc("/convert", handle.ConvertVideo)
