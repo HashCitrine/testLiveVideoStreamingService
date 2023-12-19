@@ -35,15 +35,14 @@ public class HlsService {
         String ffmpegPath = "C:/ProgramData/chocolatey/bin/ffmpeg.exe";
 
         FFmpegBuilder builder = new FFmpegBuilder()
-                //.overrideOutputFiles(true) // 오버라이드 여부
-                .setInput(videoFilePath) // 동영상파일
-                .addOutput(convertPath) // 썸네일 경로
-                .addExtraArgs("-profile:v", "baseline") //
-                .addExtraArgs("-level", "3.0") //
-                .addExtraArgs("-start_number", "0") //
-                .addExtraArgs("-hls_time", "10") //
-                .addExtraArgs("-hls_list_size", "0") //
-                .addExtraArgs("-f", "hls") //
+                .setInput(videoFilePath)
+                .addOutput(convertPath)
+                .addExtraArgs("-profile:v", "baseline")
+                .addExtraArgs("-level", "3.0")
+                .addExtraArgs("-start_number", "0")
+                .addExtraArgs("-hls_time", "10")
+                .addExtraArgs("-hls_list_size", "0")
+                .addExtraArgs("-f", "hls")
                 .done();
 
         FFmpegExecutor executor = new FFmpegExecutor(new FFmpeg(ffmpegPath), new FFprobe(ffprobePath));

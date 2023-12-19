@@ -40,11 +40,11 @@ func CreateHLS(inputFile string, outputDir string, segmentDuration int) error {
 		ffmpegCmd := exec.Command(
 			"ffmpeg",
 			"-i", inputFile,
-			"-profile:v", "baseline", // baseline profile is compatible with most devices
+			"-profile:v", "baseline",
 			"-level", "3.0",
-			"-start_number", "0", // start numbering segments from 0
-			"-hls_time", strconv.Itoa(segmentDuration), // duration of each segment in seconds
-			"-hls_list_size", "0", // keep all segments in the playlist
+			"-start_number", "0",
+			"-hls_time", strconv.Itoa(segmentDuration),
+			"-hls_list_size", "0",
 			"-f", "hls",
 			fmt.Sprintf("%s/playlist.m3u8", outputDir),
 		)
