@@ -10,6 +10,7 @@
 6. CDN (Content Delivery Network)
 
 ## 예상 서비스 논리 구성
+![img](https://github.com/HashCitrine/testLiveVideoStreamingService/assets/38382859/f0ff3a77-fe00-4f83-b688-7e787f603ee7)  
 실시간 스트리밍 서비스에 필요할 것으로 예상되는 개념을 정리하여 예상해본 논리적인 서비스 구성 예상도  
 
 실제 서비스는 Web 및 Mobile UI, UI API 등도 포함이 되어 있을 것으로 생각되며  
@@ -17,18 +18,18 @@
 
 `실시간 인터넷 방송`에 초점을 맞춰 간략하게 구성함
 
-1. Web Service : 실시간 영상 수신 및 송출에 필요한 웹 서비스
+1. `Web Service` : 실시간 영상 수신 및 송출에 필요한 웹 서비스
    - Streamer로부터 RTMP 요청을 통해 영상 수신
    - 영상을 Viewer에게 HLS로 송출
    - 수신 및 송출을 담당하는 서비스는 분리하여 각자 구성할 수 있음
-2. Middleware : 시스템 전반을 관리하는 서비스
+2. `Middleware` : 시스템 전반을 관리하는 서비스
    - 각 서비스간 처리 연계 Interface(Message Queue나 In-Memory DB 등을 이용할 수 있음)
    - Logging, Monitoring 서비스와 연계하여 시스템 현황 기록 및 관리(ELK 등을 이용할 수 있음)
-3. Encoder : 영상 데이터 Encoding 서비스
+3. `Encoder` : 영상 데이터 Encoding 서비스
    - RTMP로 수신 받은 영상 데이터를 HLS 응답에 이용할 `.3m8u` 및 `.ts` 파일로 Encoding
    - 영상 데이터를 VOD 서비스용 Codec으로 Encoding
    - Encoding 처리된 영상은 NFS나 Object Storage 등에 저장하여 데이터를 이용하는 서비스에서 접근하는 방식으로 처리할 수 있음
-4. Broadcast Service : 방송 진행과 시청에 필요한 요청 처리
+4. `Broadcast Service` : 방송 진행과 시청에 필요한 요청 처리
    - Streamer가 방송 정보 변경 시 Viewer의 화면에도 반영
    - 채팅 서비스
    - Viewer가 구독, 후원 시 해당 정보를 Streamer의 방송 시스템에 전달
