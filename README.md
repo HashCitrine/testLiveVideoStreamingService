@@ -1,7 +1,7 @@
 # Live Video Streaming Service 구성해보기
-- `RTMP` & `HLS` Protocol Server를 구성하여 `실시간 인터넷 방송` 서비스 구성해보기
+- `실시간 인터넷 방송` 서비스 구성해보기
 
-## 개념 정리
+## 연관 개념 정리
 1. Codec  
 데이터 스트림을 En/Decoding 하는 기술, 소프트웨어  
 효율적인 데이터 전송 및 보관을 위해 데이터 열화를 감안한 손실 방식(MP3, JPEG, H.264 등)과 원본의 품질을 해치지 않기 위한 비손실 방식(FLAC, PNG, HuffYUV 등)이 있음  
@@ -27,12 +27,18 @@ Apple 제품에서 호환되는 유일한 스트리밍 포로토콜이며 기타
 전송에 이용할 비디오 데이터의 경우 H.264, H.265 Encoding 이용 필요 ([참조](https://www.cloudflare.com/ko-kr/learning/video/what-is-mpeg-dash/))
 
 6. DASH (Dynamic Adaptive Streaming over HTTP)  
-2014년 MPEG에서 정의한 국제 표준 HTTP 기반 적응 비트레이트 스트리밍 통신 프로토콜
-국제 표준인만큼 HLS와 달리 다양한 인코딩에 대응할 수 있음
+2014년 MPEG에서 정의한 국제 표준 HTTP 기반 적응 비트레이트 스트리밍 통신 프로토콜  
+국제 표준인만큼 HLS와 달리 다양한 인코딩에 대응할 수 있음  
 
 7. CDN (Content Delivery Network)  
-효율적인 컨텐츠(데이터) 전송을 위해 캐시 서버를 이용하는 기술
+효율적인 컨텐츠(데이터) 전송을 위해 캐시 서버를 이용하는 기술  
 주로 물리적으로 먼 거리의 사용자에게 서비스를 제공하기 위해 사용
+
+## 구현해본 부분
+1. HLS Player : [index.html](https://github.com/HashCitrine/testLiveVideoStreamingService/blob/master/page/index.html)에 `hls.js` 예제를 이용하여 구성
+2. Encoder : `FFMPEG`를 이용해  `.3m8u` 및 `.ts` 파일로 Encoding하는 서비스 생성([go](https://github.com/HashCitrine/testLiveVideoStreamingService/blob/master/go/service/hls.go#L31), [spring](https://github.com/HashCitrine/testLiveVideoStreamingService/blob/master/spring/src/main/java/com/example/hls/service/HlsService.java#L30), [nginx](https://github.com/HashCitrine/testLiveVideoStreamingService/blob/master/nginx/nginx.conf#L47))
+3. HLS : Encoder를 통해 생성된 파일을 HLS Player로 전달하여 재생 가능 여부 테스트([go](https://github.com/HashCitrine/testLiveVideoStreamingService/blob/master/go/handle/handle.go#L11), [spring](https://github.com/HashCitrine/testLiveVideoStreamingService/blob/master/spring/src/main/java/com/example/hls/service/HlsService.java#L17))
+4. RTMP Server : `Nginx RTMP` Plugin을 이용하여 RTMP 서버([참조](https://github.com/HashCitrine/testLiveVideoStreamingService/blob/master/nginx/nginx.conf#L5))를 띄우고 `OBS`와 연결 가능 여부 테스트
 
 ## 예상 서비스 논리 구성
 ![img](https://github.com/HashCitrine/testLiveVideoStreamingService/assets/38382859/f0ff3a77-fe00-4f83-b688-7e787f603ee7)  
@@ -43,9 +49,9 @@ Apple 제품에서 호환되는 유일한 스트리밍 포로토콜이며 기타
 
 `실시간 인터넷 방송`에 초점을 맞춰 간략하게 구성함
 
-1. `Web Service` : 실시간 영상 수신 및 송출에 필요한 웹 서비스
+1. `Web Service` : 실시간 영상 수신 및 송출에 필요한 웹 서비스 (CDN에 부합하는 캐시 구성이 필요할 수 있음)
    - Streamer로부터 RTMP 요청을 통해 영상 수신
-   - 영상을 Viewer에게 HLS로 송출 (송출과 관련하여 CDN에 부합하는 캐시 구성이 필요할 수 있음)
+   - 영상을 Viewer에게 HLS로 송출
    - 수신 및 송출을 담당하는 서비스는 분리하여 각자 구성할 수 있음
 2. `Middleware` : 시스템 전반을 관리하는 서비스
    - 각 서비스간 처리 연계 Interface(Message Queue나 In-Memory DB 등을 이용할 수 있음)
@@ -53,14 +59,14 @@ Apple 제품에서 호환되는 유일한 스트리밍 포로토콜이며 기타
 3. `Encoder` : 영상 데이터 Encoding 서비스
    - RTMP로 수신 받은 영상 데이터를 HLS 응답에 이용할 `.3m8u` 및 `.ts` 파일로 Encoding
    - 영상 데이터를 VOD 서비스용 Codec으로 Encoding
-   - Encoding 처리된 영상은 NFS나 Object Storage 등에 저장하여 데이터를 이용하는 서비스에서 접근하는 방식으로 처리할 수 있음
+   - Encoding 처리된 영상은 NFS나 Object Storage 등에 저장하여 데이터를 이용하는 서비스에서 접근하는 방식으로 처리할 수 있음  
 4. `Broadcast Service` : 방송 진행과 시청에 필요한 요청 처리
    - Streamer가 방송 정보 변경 시 Viewer의 화면에도 반영
    - 채팅 서비스
    - Viewer가 구독, 후원 시 해당 정보를 Streamer의 방송 시스템에 전달
 
 ## 궁금점
-1. 스트리밍 서비스 시 많은 시청자가 방송을 시청하는 경우 발생하는 물리적인 부하는 어떻게 분산할까? (CDN? Object Storage)
+1. 스트리밍 서비스 시 많은 시청자가 방송을 시청하는 경우 발생하는 물리적인 부하는 어떻게 분산할까? (CDN? Object Storage?)
 2. 다시보기 영상은 언제 VOD용 인코딩 처리가 이루어질까? (방송 진행과 동시에? 방송 종료 이후에?)
 3. 시청자들간 스트리밍 데이터를 공유하는 시스템이 데이터를 공유할 사용자들과 공유 받을 사용자들을 어떻게 선택하고 식별할까?  
    그리고 각 사용자들 환경에서 어떻게 통신할 서로 통신할까? (RPC?)
@@ -77,3 +83,4 @@ Apple 제품에서 호환되는 유일한 스트리밍 포로토콜이며 기타
 - [[방장기강] 방송장비 기술강좌 - 비디오 프로토콜](https://youtu.be/sUtIxxTkpOA?si=YjPP8R-ICrJ1hQvi)
 - [nginx rtmp를 이용해서 실시간 스트리밍 구현 예제](https://qteveryday.tistory.com/372)
 - [MPEG-DASH란 무엇입니까? | HLS와 DASH의 비교](https://www.cloudflare.com/ko-kr/learning/video/what-is-mpeg-dash/)
+- [P2P의 개념](https://ddongwon.tistory.com/75)
