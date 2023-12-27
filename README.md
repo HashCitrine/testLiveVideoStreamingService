@@ -82,6 +82,19 @@
 - Leecher : 데이터의 일부 조각을 가진 Peer
 - Tracker : 파일 공유를 일으키는 중앙 서버로, 공유 대상인 Peer 목록과 공유 파일 고유 식별자인 Hash 값으로 구성된 정보(`Swarm`)를 관리함
 
+### IPFS (InterPlanetary File System)
+![]()
+- 분산형 파일 시스템에 데이터를 저장하고 네트워크를 통해 공유하기 위해 고안된 P2P용 프로토콜
+- `DHT` (Distributed Hash Tables) : 네트워크에 참여한 노드들이 `Hash Table`을 각자 관리하여, 중앙 서버 없이 P2P 네트워크 형성
+- 
+
+
+### 주의사항
+- 
+
+## 기타
+### HTTP/3
+
 ## 참조
 - (Apple) [HTTP 라이브 스트리밍](https://developer.apple.com/documentation/http-live-streaming#Encode-and-deliver-streaming-media)
 - (Youtube) [YouTube Live Streaming API](https://developers.google.com/youtube/v3/live/life-of-a-broadcast?hl=ko)
