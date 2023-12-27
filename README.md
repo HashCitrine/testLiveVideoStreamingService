@@ -53,15 +53,17 @@
 
 `실시간 인터넷 방송`에 초점을 맞춰 간략하게 구성함
 
-1. `Web Service` : 실시간 영상 수신 및 송출에 필요한 웹 서비스 (트래픽 부하 분산을 위한 캐시 서버 구성이 필요할 수 있음)
+1. `Web Service` : 실시간 영상 수신 및 송출에 필요한 웹 서비스
    - Streamer로부터 RTMP 요청을 통해 영상 수신
    - 영상을 Viewer에게 HLS로 송출
    - 수신 및 송출을 담당하는 서비스는 분리하여 각자 구성할 수 있음
+   - 트래픽 부하 분산을 위한 캐시 서버 구성이 필요할 수 있음
 2. `Middleware` : 시스템 전반을 관리하는 서비스
    - 각 서비스간 처리 연계 Interface(Message Queue나 In-Memory DB 등을 이용할 수 있음)
    - Logging, Monitoring 서비스와 연계하여 시스템 현황 기록 및 관리(ELK 등을 이용할 수 있음)
 3. `Encoder` : 영상 데이터 Encoding 서비스
-   - RTMP로 수신 받은 영상 데이터를 HLS 및 DASH 응답에 이용할 수 있는 형태로 Encoding (HLS : `.3m8u + .ts` / DASH : `.m4a + .m4v`)
+   - RTMP로 수신 받은 영상 데이터를 HLS 및 DASH 응답에 이용할 수 있는 형태로 Encoding  
+     (HLS : `.3m8u + .ts` / DASH : `.m4a + .m4v`)
    - 영상 데이터를 VOD 서비스용 Codec으로 Encoding
    - Encoding 처리된 영상은 NFS나 Object Storage 등에 저장하여 데이터를 이용하는 서비스에서 접근하는 방식으로 처리할 수 있음  
 4. `Broadcast Service` : 방송 진행과 시청에 필요한 요청 처리
