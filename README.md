@@ -103,6 +103,12 @@
      ![SFS](https://camo.githubusercontent.com/90b06021ed07661d3d02777712ec5c2df2dd11fdd72d76c1d295a746847a36d7/68747470733a2f2f696d6167652e736c696465736861726563646e2e636f6d2f756e7469746c65642d3136303331343132343630322f39352f646174612d737472756374757265732d696e2d616e642d6f6e2d697066732d35392d3633382e6a70673f63623d31343537393539363638)
         - IPFS를 이용하기 위한 주소 자체에 `공개키로 해시화된 값`을 사용하여, 자체적으로 공유 위치(서버) 식별이 가능
 
+## 기타
+### HTTP/3
+- HTTP-over-QUIC
+- Zero RTT(Round Trip Time)
+  (작성중...)
+
 ## 참조
 - (Apple) [HTTP 라이브 스트리밍](https://developer.apple.com/documentation/http-live-streaming#Encode-and-deliver-streaming-media)
 - (Youtube) [YouTube Live Streaming API](https://developers.google.com/youtube/v3/live/life-of-a-broadcast?hl=ko)
@@ -116,4 +122,6 @@
 - [MPEG-DASH란 무엇입니까? | HLS와 DASH의 비교](https://www.cloudflare.com/ko-kr/learning/video/what-is-mpeg-dash/)
 - [P2P의 개념](https://ddongwon.tistory.com/75)
 - [BitTorrent (토렌트) 의 원리와 구조](https://blog.naver.com/manhdh/220038243469)
+- [IPFS_Explained](https://github.com/llSourcell/IPFS_Explained/blob/master/IPFS%20app.ipynb)
 - [IPFS(InterPlanetary File System)이해하기](https://medium.com/@kblockresearch/8-ipfs-interplanetary-file-system-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-1%EB%B6%80-http-web%EC%9D%84-%EB%84%98%EC%96%B4%EC%84%9C-ipfs-web%EC%9C%BC%EB%A1%9C-46382a2a6539)
+- 
