@@ -73,14 +73,35 @@
 ## P2P (Peer-to-Peer)
 - 서비스 공급자(중앙)로부터 데이터를 제공 받는 것이 아닌, 서비스 이용자(Peer)끼리 서로 통신하여 필요한 데이터를 주고 받는 형태
 - 국내에서 스트리밍 서비스 시 네트워크 이용을 분산하기 위해 `P2P` 시스템을 대부분 도입하고 있음
+- 주의사항 
+  1) Peer 간의 데이터 공유를 위해 서로의 위치(IP)가 식별되어야 함 (보안 문제)
+  2) Peer의 수가 적은 경우, 효용성이 떨어짐
 
 ### BitTorrent
-![BitTorrent](https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL2JpdHRvcnJlbnQtNi5naWYiLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjI5MH19fQ==)
+![BitTorrent](https://camo.githubusercontent.com/d579cc5713418331221acb55180fb7068f9e39a762518ba63a9eb0378525440c/687474703a2f2f63646e2e6f7265696c6c792e636f6d2f65786365727074732f393738303539363531343433332f773264705f303330372e706e67)
 - 가장 대표적인 P2P 프로토콜이자 동명의 서비스  
 - 공유할 데이터를 조각(Piece)으로 나누어 Peer에게 공유
 - Seeder : 데이터의 모든 조각을 가진 Peer
 - Leecher : 데이터의 일부 조각을 가진 Peer
 - Tracker : 파일 공유를 일으키는 중앙 서버로, 공유 대상인 Peer 목록과 공유 파일 고유 식별자인 Hash 값으로 구성된 정보(`Swarm`)를 관리함
+
+### IPFS (InterPlanetary File System)
+![IPFS Stack](https://camo.githubusercontent.com/0c6475ffd1e72afe459e43b220ebc242eceb715d1ead148f93d32825a87ab6a5/68747470733a2f2f696d6167652e736c696465736861726563646e2e636f6d2f756e7469746c65642d3136303331343132343630322f39352f646174612d737472756374757265732d696e2d616e642d6f6e2d697066732d32382d3633382e6a70673f63623d31343537393539363638)
+- 분산형 파일 시스템에 데이터를 저장하고 네트워크를 통해 공유하기 위해 고안된 P2P용 프로토콜
+- 기반 기술
+  1. `DHT` (Distributed Hash Tables) : 네트워크에 참여한 노드들이 `Hash Table`을 각자 관리하여, 중앙 서버 없이 P2P 네트워크 형성
+  2. `BitTorrent` : P2P 파일 공유 프로토콜
+  3. `Merkle DAG` (Merkle Directed Acyclic Graphs) : IPFS에서 이용되는 데이터에 적용되는 자료 구조
+     ![Merkle DAG](https://camo.githubusercontent.com/875eaff5b9a107a82f4ffe94cd591b06d36ccd7de8a43bc37c413813ef1270ff/687474703a2f2f77686174646f65737468657175616e747361792e636f6d2f6173736574732f696d616765732f697066735f6f626a656374735f6469726563746f72795f7374727563747572652e706e67)
+     - Merkle Tree에서 DAG로 확장된 자료 구조로, Leaf(말단) 노드만 실제 데이터를 가지고 있던 Tree 구조에서 모든 노드들이 데이터를 가지는 형태가 되었음
+     - 부모 노드가 자식 노드의 해시값으로 구성되는 점으로 인해, 아래의 특징을 가짐  
+       1) 위변조가 불가(위변조 시 Root 노드의 해시값이 변경됨)
+       2) 모든 노드가 사실상 연결된 구조(해시값)
+       3) 자체적으로 무결성 확인 가능(Multi hash Checksum)
+       4) 같은 데이터는 같은 해시값을 가지므로 데이터 중복 불가
+  4. `SFS` (Self-certified FileSystems) : IPFS의 name system인 `IPNS`의 기반 기술
+     ![SFS](https://camo.githubusercontent.com/90b06021ed07661d3d02777712ec5c2df2dd11fdd72d76c1d295a746847a36d7/68747470733a2f2f696d6167652e736c696465736861726563646e2e636f6d2f756e7469746c65642d3136303331343132343630322f39352f646174612d737472756374757265732d696e2d616e642d6f6e2d697066732d35392d3633382e6a70673f63623d31343537393539363638)
+        - IPFS를 이용하기 위한 주소 자체에 `공개키로 해시화된 값`을 사용하여, 자체적으로 공유 위치(서버) 식별이 가능
 
 ## 참조
 - (Apple) [HTTP 라이브 스트리밍](https://developer.apple.com/documentation/http-live-streaming#Encode-and-deliver-streaming-media)
