@@ -113,7 +113,7 @@
      네트워크 연결 상황이 연속적이지 않게 되며 이로 인해 매 연결을 유지하는 TCP보다 UDP 이용이 유리해짐
    - 또한 네트워크 연결 변동 상황에서 기존의 HTTP 연결에 비해 간략한 Handshake 과정을 통해 빠른 시간 안에 네트워크 서비스 연결을 복원할 수 있음  
      → Zero Round Trip Time : 최초 연결(Handshake) 시에만 1번의 연결 인증을 위한 네트워크 통신 왕복이 일어나고, 이후 재연결 시에는 Cache된 연결 정보를 이용해 네트워크 통신 왕복 없이 네트워크 재연결 가능
-     ![Zero RTT](https://www.cdnetworks.com/wp-content/uploads/2023/03/QUIC-PICTURE-04-1024x553.jpg)
+     ![Zero-RTT](https://github.com/HashCitrine/testLiveVideoStreamingService/assets/38382859/b3cbe1f4-77ca-49e2-b20d-d91ef5e80f6b)
 
 ## 참조
 - (Apple) [HTTP 라이브 스트리밍](https://developer.apple.com/documentation/http-live-streaming#Encode-and-deliver-streaming-media)
